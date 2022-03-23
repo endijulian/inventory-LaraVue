@@ -18,4 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/{component?}', function () {
+    return view('welcome');
+})->where('component', '[\/\w\.-]*');
