@@ -77,7 +77,7 @@
 <script>
 export default {
   created() {
-    if (User.loggedIn) {
+    if (User.loggedIn()) {
       this.$router.push({ name: "home" });
     }
   },
@@ -97,14 +97,15 @@ export default {
     signup() {
       axios
         .post("/api/auth/signup", this.form)
-        .then(
-          (res) => User.responseAfterLogin(res),
+        .then((res) => {
+          User.responseAfterLogin(res);
           Toast.fire({
             icon: "success",
             title: "Signed in successfully",
-          }),
-          this.$router.push({ name: "home" })
-        )
+          });
+          this.$router.push({ name: "home" });
+        })
+
         .catch((error) => (this.errors = error.response.data.errors));
     },
   },

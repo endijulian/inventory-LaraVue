@@ -471,10 +471,10 @@
   </div>
 </template>
 
-<script>
+<script type="text/javascript">
 export default {
   created() {
-    if (!User.loggedIn) {
+    if (!User.loggedIn()) {
       this.$router.push({ name: "/" });
     }
   },

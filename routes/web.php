@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/{component?}', function () {
+Route::get('/{vue_capture?}', function () {
     return view('welcome');
-})->where('component', '[\/\w\.-]*');
+})->where('vue_capture', '[\/\w\.-]*');
