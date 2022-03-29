@@ -331,6 +331,8 @@
   </a>
 
   <script src="{{ asset('js/app.js') }}"></script>
+
+  
   <script src=" {{ asset('Template-Admin/vendor/jquery/jquery.min.js') }} "></script>
   <script src=" {{ asset('Template-Admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }} "></script>
   <script src=" {{ asset('Template-Admin/vendor/jquery-easing/jquery.easing.min.js') }} "></script>

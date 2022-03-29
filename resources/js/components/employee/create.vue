@@ -138,6 +138,7 @@
                             class="custom-file-input"
                             id="customFile"
                             placeholder="Enter Your Name"
+                            @change="onFileSelected"
                           />
                           <small class="text-danger" v-if="errors.photo">{{
                             errors.photo[0]
@@ -145,14 +146,13 @@
                           <label for="customFile" class="custom-file-label"
                             >Choose File</label
                           >
-                        </div>
-
-                        <div class="col-md-6">
-                          <img
-                            src="form.photo"
-                            alt=""
-                            style="height: 40px; width: 40px"
-                          />
+                          <div class="col-md-6 mt-2">
+                            <img
+                              :src="form.photo"
+                              alt=""
+                              style="height: 100px; width: 100px"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -201,7 +201,29 @@ export default {
     };
   },
   methods: {
-    employeeInsert() {},
+    onFileSelected(event) {
+      // console.log(event);
+      let file = event.target.files[0];
+      if (file.size > 1048770) {
+        Notification.image_validation();
+      } else {
+        let reader = new FileReader();
+        reader.onload = (event) => {
+          this.form.photo = event.target.result;
+          console.log(event.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    employeeInsert() {
+      axios
+        .post("/api/employee", this.form)
+        .then(() => {
+          this.$router.push({ name: "employee" });
+          Notification.success();
+        })
+        .catch((error) => (this.errors = error.response.data.errors));
+    },
   },
 };
 </script>
