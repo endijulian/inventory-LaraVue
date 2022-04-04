@@ -21,7 +21,7 @@
                   >
                     <div class="form-group">
                       <div class="form-row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                           <input
                             type="text"
                             class="form-control"
