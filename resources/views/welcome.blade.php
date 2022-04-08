@@ -348,6 +348,16 @@
           </div>
           <!---Container Fluid-->
         </div>
+
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>copyright © <script> document.write(new Date().getFullYear()); </script>2022 - developed by
+                <b><a href="https://github.com/endijulian" target="_blank">endijulian</a></b>
+              </span>
+            </div>
+          </div>
+        </footer>
         
       </div>
     </div>

@@ -14,7 +14,7 @@
                   </div>
                   <form
                     class="user"
-                    @submit.prevent="employeeInsert"
+                    @submit.prevent="ProductInsert"
                     enctype="multipart/form-data"
                   >
                     <div class="form-group">
@@ -66,12 +66,15 @@
                           <select
                             class="form-control"
                             id="exampleFormControlSelect1"
+                            v-model="form.category_id"
                           >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <option
+                              :value="category.id"
+                              v-for="category in categories"
+                              :key="category.id"
+                            >
+                              {{ category.category_name }}
+                            </option>
                           </select>
                         </div>
 
@@ -82,12 +85,15 @@
                           <select
                             class="form-control"
                             id="exampleFormControlSelect1"
+                            v-model="form.supplier_id"
                           >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                            <option
+                              :value="supplier.id"
+                              v-for="supplier in suppliers"
+                              :key="supplier.id"
+                            >
+                              {{ supplier.name }}
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -254,32 +260,37 @@ export default {
         image: null,
       },
       errors: {},
+      categories: {},
+      suppliers: {},
     };
   },
   methods: {
     onFileSelected(event) {
-      // console.log(event);
       let file = event.target.files[0];
       if (file.size > 1048770) {
         Notification.image_validation();
       } else {
         let reader = new FileReader();
         reader.onload = (event) => {
-          this.form.photo = event.target.result;
+          this.form.image = event.target.result;
           console.log(event.target.result);
         };
         reader.readAsDataURL(file);
       }
     },
-    employeeInsert() {
+    ProductInsert() {
       axios
-        .post("/api/employee", this.form)
+        .post("/api/product", this.form)
         .then(() => {
-          this.$router.push({ name: "employee" });
+          this.$router.push({ name: "product" });
           Notification.success();
         })
         .catch((error) => (this.errors = error.response.data.errors));
     },
+  },
+  created() {
+    axios.get("/api/category/").then(({ data }) => (this.categories = data));
+    axios.get("/api/supplier/").then(({ data }) => (this.suppliers = data));
   },
 };
 </script>
