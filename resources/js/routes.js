@@ -25,10 +25,15 @@ let category      = require('./components/category/index.vue').default;
 let storecategory = require('./components/category/create.vue').default;
 let editcategory  = require('./components/category/edit.vue').default;
 
-//Category Components
+//Produk Components
 let product      = require('./components/product/index.vue').default;
 let storeproduct = require('./components/product/create.vue').default;
 let editproduct  = require('./components/product/edit.vue').default;
+
+//Expense Components
+let expense      = require('./components/expense/expense.vue').default;
+let storeexpense = require('./components/expense/create.vue').default;
+let editexpense  = require('./components/expense/edit.vue').default;
 
 export const routes = [
     { path: '/', component: login, name: '/' },
@@ -56,4 +61,9 @@ export const routes = [
     {path: '/product', component: product, name:'product'},
     {path:'/store-product',component: storeproduct, name:'store-product'},
     {path:'/edit-product/:id',component: editproduct, name:'edit-product'},
+
+    //Expense Routes
+    {path: '/expense', component: expense, name:'expense'},
+    {path:'/store-expense',component: storeexpense, name:'store-expense'},
+    {path:'/edit-expense/:id',component: editexpense, name:'edit-expense'},
   ]
