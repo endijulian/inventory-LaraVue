@@ -6,7 +6,6 @@ let register  = require('./components/auth/register.vue').default;
 let forget    = require('./components/auth/forget.vue').default;
 let logout    = require('./components/auth/logout.vue').default;
 
-
 //End Auth
 let home = require('./components/home.vue').default;
 
@@ -52,6 +51,8 @@ let customer      = require('./components/customer/index.vue').default;
 let storecustomer = require('./components/customer/create.vue').default;
 let editcustomer  = require('./components/customer/edit.vue').default;
 
+//Pos Components
+let pos  = require('./components/pos/pointofsale.vue').default;
 
 
 
@@ -103,4 +104,7 @@ export const routes = [
      {path: '/customer', component: customer, name:'customer'},
      {path:'/store-customer',component: storecustomer, name:'store-customer'},
      {path:'/edit-customer/:id',component: editcustomer, name:'edit-customer'},
+
+     //Pos Routes
+     {path: '/pos', component: pos, name: 'pos'},
   ]
