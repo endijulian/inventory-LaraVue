@@ -24,7 +24,9 @@
               "
             >
               <h6 class="m-0 font-weight-bold text-primary">Expense Insert</h6>
-              <a href="" class="btn btn-sm btn-info">Add Customer</a>
+              <router-link to="/customer" class="btn btn-sm btn-info"
+                >Add Customer</router-link
+              >
             </div>
             <div class="card-body">
               <div class="table-responsive" style="font-size: 12px">
@@ -39,15 +41,40 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td><a href="#">RA0449</a></td>
-                      <td>Udin Wayang</td>
-                      <td>Nasi Padang</td>
+                    <tr v-for="cart in carts" :key="cart.id">
+                      <td>{{ cart.pro_name }}</td>
                       <td>
-                        <span class="badge badge-success">Delivered</span>
+                        <input
+                          type="text"
+                          readonly
+                          style="width: 15px"
+                          :value="cart.pro_quantity"
+                        />
+                        <button
+                          @click.prevent="increment(cart.id)"
+                          class="btn btn-sm btn-success"
+                        >
+                          +
+                        </button>
+                        <button
+                          @click.prevent="decrement(cart.id)"
+                          class="btn btn-sm btn-danger"
+                          v-if="cart.pro_quantity >= 2"
+                        >
+                          -
+                        </button>
+                        <button class="btn btn-sm btn-danger" disabled v-else>
+                          -
+                        </button>
                       </td>
+                      <td>{{ cart.product_price }}</td>
+                      <td>{{ cart.sub_total }}</td>
                       <td>
-                        <a href="#" class="btn btn-sm btn-primary">Detail</a>
+                        <a
+                          @click="removeItem(cart.id)"
+                          class="btn btn-sm btn-primary text-white"
+                          >X</a
+                        >
                       </td>
                     </tr>
                   </tbody>
@@ -205,7 +232,10 @@
                       v-for="(product, index) in filterSearch"
                       :key="index.id"
                     >
-                      <a href="">
+                      <button
+                        class="btn btn-sm"
+                        @click.prevent="AddToCart(product.id)"
+                      >
                         <div
                           class="card"
                           style="width: 18.5 rem; margin-bottom: 5px"
@@ -230,7 +260,7 @@
                             >
                           </div>
                         </div>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -255,7 +285,10 @@
                       v-for="(getProduct, index) in getfilterSearch"
                       :key="index.id"
                     >
-                      <a href="">
+                      <button
+                        class="btn btn-sm"
+                        @click.prevent="AddToCart(getProduct.id)"
+                      >
                         <div
                           class="card"
                           style="width: 18.5 rem; margin-bottom: 5px"
@@ -280,7 +313,7 @@
                             >
                           </div>
                         </div>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -306,6 +339,10 @@ export default {
     this.allProduct();
     this.allCategory();
     this.allCustomer();
+    this.cartProduct();
+    Reload.$on("AfterAdd", () => {
+      this.cartProduct();
+    });
   },
   data() {
     return {
@@ -316,6 +353,7 @@ export default {
       getsearchTerm: "",
       customers: "",
       errors: "",
+      carts: "",
     };
   },
   computed: {
@@ -331,6 +369,54 @@ export default {
     },
   },
   methods: {
+    //Cart Methods
+    AddToCart(id) {
+      axios
+        .get("/api/addToCart/" + id)
+        .then(() => {
+          Reload.$emit("AfterAdd");
+          Notification.cart_success();
+        })
+        .catch();
+    },
+
+    cartProduct() {
+      axios
+        .get("/api/cart/product/")
+        .then(({ data }) => (this.carts = data))
+        .catch();
+    },
+
+    removeItem(id) {
+      axios
+        .get("/api/remove/cart/" + id)
+        .then(() => {
+          Reload.$emit("AfterAdd");
+          Notification.cart_delete();
+        })
+        .catch();
+    },
+
+    increment(id) {
+      axios
+        .get("/api/increment/" + id)
+        .then(() => {
+          Reload.$emit("AfterAdd");
+          Notification.success();
+        })
+        .catch();
+    },
+    decrement(id) {
+      axios
+        .get("/api/decrement/" + id)
+        .then(() => {
+          Reload.$emit("AfterAdd");
+          Notification.success();
+        })
+        .catch();
+    },
+
+    //End Cart Methods
     allProduct() {
       axios
         .get("/api/product/")

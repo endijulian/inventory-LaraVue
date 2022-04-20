@@ -31,3 +31,11 @@ Route::post('/salary/update/{id}', 'Api\SalaryController@SalaryUpdate');
 
 Route::post('/stock/update/{id}', 'Api\ProductController@StockUpdate');
 Route::get('/getting/product/{id}', 'Api\PosController@GetProduct');
+
+//Cart
+Route::get('addToCart/{id}', 'Api\CartController@AddToCart');
+Route::get('cart/product', 'Api\CartController@CartProduct');
+Route::get('remove/cart/{id}', 'Api\CartController@RemoveCart');
+
+Route::get('increment/{id}', 'Api\CartController@increment');
+Route::get('decrement/{id}', 'Api\CartController@decrement');
