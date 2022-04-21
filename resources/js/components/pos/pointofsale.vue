@@ -91,7 +91,7 @@
                     align-items-center
                   "
                 >
-                  Total Quantity : <strong>56</strong>
+                  Total Quantity : <strong>{{ qty }}</strong>
                 </li>
                 <li
                   class="
@@ -101,7 +101,7 @@
                     align-items-center
                   "
                 >
-                  Sub Total : <strong>56 $</strong>
+                  Sub Total : <strong>{{ subTotal }} $</strong>
                 </li>
                 <li
                   class="
@@ -111,7 +111,7 @@
                     align-items-center
                   "
                 >
-                  Vat : <strong>35 %</strong>
+                  Vat : <strong>{{ vats.vat }} %</strong>
                 </li>
                 <li
                   class="
@@ -121,7 +121,10 @@
                     align-items-center
                   "
                 >
-                  Total : <strong>54678 $</strong>
+                  Total :
+                  <strong
+                    >{{ (subTotal * vats.vat) / 100 + subTotal }} $</strong
+                  >
                 </li>
               </ul>
               <br />
@@ -340,6 +343,7 @@ export default {
     this.allCategory();
     this.allCustomer();
     this.cartProduct();
+    this.vat();
     Reload.$on("AfterAdd", () => {
       this.cartProduct();
     });
@@ -353,7 +357,8 @@ export default {
       getsearchTerm: "",
       customers: "",
       errors: "",
-      carts: "",
+      carts: [],
+      vats: "",
     };
   },
   computed: {
@@ -366,6 +371,22 @@ export default {
       return this.getProducts.filter((getProduct) => {
         return getProduct.product_name.match(this.getsearchTerm);
       });
+    },
+    qty() {
+      let sum = 0;
+      for (let i = 0; i < this.carts.length; i++) {
+        sum += parseFloat(this.carts[i].pro_quantity);
+      }
+      return sum;
+    },
+    subTotal() {
+      let sum = 0;
+      for (let i = 0; i < this.carts.length; i++) {
+        sum +=
+          parseFloat(this.carts[i].pro_quantity) *
+          parseFloat(this.carts[i].product_price);
+      }
+      return sum;
     },
   },
   methods: {
@@ -416,6 +437,12 @@ export default {
         .catch();
     },
 
+    vat() {
+      axios
+        .get("/api/vats/")
+        .then(({ data }) => (this.vats = data))
+        .catch();
+    },
     //End Cart Methods
     allProduct() {
       axios

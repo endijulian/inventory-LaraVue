@@ -14,7 +14,13 @@ class CreateExtraTable extends Migration
     public function up()
     {
         Schema::create('extra', function (Blueprint $table) {
-            $table->id();
+            $table->id('id');
+            $table->integer('vat')->nullable(0);
+            $table->string('logo');
+            $table->string('favicon')->nullable();
+            $table->string('phone');
+            $table->string('email');
+            $table->string('address');
             $table->timestamps();
         });
     }
