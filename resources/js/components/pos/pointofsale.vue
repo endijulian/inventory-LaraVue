@@ -128,11 +128,11 @@
                 </li>
               </ul>
               <br />
-              <form action="">
+              <form action="" @submit.prevent="orderDone">
                 <label for="">Customer Name</label>
                 <select class="form-control" v-model="customer_id">
                   <option
-                    value=""
+                    :value="customer.id"
                     v-for="customer in customers"
                     :key="customer.id"
                   >
@@ -154,10 +154,10 @@
                   v-model="due"
                 />
                 <label for="">Pay By</label>
-                <select class="form-control" v-model="customer_id">
-                  <option value="Endi">Endi</option>
-                  <option value="Julian">Julian</option>
-                  <option value="Alung">Alung</option>
+                <select class="form-control" v-model="payby">
+                  <option value="HandCash">Hand Cash</option>
+                  <option value="Cheaque">Cheaque</option>
+                  <option value="GiftCard">Gift Card</option>
                 </select>
                 <br />
                 <button type="submit" class="btn btn-success">Submit</button>
@@ -350,6 +350,11 @@ export default {
   },
   data() {
     return {
+      customer_id: "",
+      pay: "",
+      due: "",
+      payby: "",
+
       products: [],
       categories: "",
       getProducts: [],
@@ -442,6 +447,25 @@ export default {
         .get("/api/vats/")
         .then(({ data }) => (this.vats = data))
         .catch();
+    },
+
+    orderDone() {
+      let total = (this.subTotal * this.vats.vat) / 100 + this.subTotal;
+      var data = {
+        qty: this.qty,
+        subTotal: this.subTotal,
+        customer_id: this.customer_id,
+        payby: this.payby,
+        pay: this.pay,
+        vat: this.vats.vat,
+        total: total,
+        due: this.due,
+      };
+
+      axios.post("/api/orderdone", data).then(() => {
+        Notification.success();
+        this.$router.push({ name: "home" });
+      });
     },
     //End Cart Methods
     allProduct() {
