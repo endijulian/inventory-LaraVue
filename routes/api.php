@@ -44,3 +44,9 @@ Route::get('decrement/{id}', 'Api\CartController@decrement');
 Route::get('/vats', 'Api\CartController@Vats');
 
 Route::post('/orderdone', 'Api\PosController@OrderDone');
+
+
+Route::get('/orders', 'Api\OrderController@OrderToday');
+Route::get('orders/details/{id}', 'Api\OrderController@OrderDetail');
+Route::get('orders/orderdetails/{id}', 'Api\OrderController@OrderDetailAll');
+Route::post('/search/orders', 'Api\OrderController@SearchOrderDate');
