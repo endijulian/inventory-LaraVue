@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function OrderToday()
     {
-        $date   = date('d/m/y');
+        $date   = date('d/m/Y');
 
         $order  = DB::table('orders')
             ->join('customers', 'orders.customer_id', 'customers.id')
@@ -50,7 +50,7 @@ class OrderController extends Controller
         // dd('ok');
         $orderdate  = $request->date;
         $newdate    = new DateTime($orderdate);
-        $done       = $newdate->format('d/m/y');
+        $done       = $newdate->format('d/m/Y');
         // dd($done);
 
         $order  = DB::table('orders')

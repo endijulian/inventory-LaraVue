@@ -50,3 +50,11 @@ Route::get('/orders', 'Api\OrderController@OrderToday');
 Route::get('orders/details/{id}', 'Api\OrderController@OrderDetail');
 Route::get('orders/orderdetails/{id}', 'Api\OrderController@OrderDetailAll');
 Route::post('/search/orders', 'Api\OrderController@SearchOrderDate');
+
+
+//Admin dashboard
+Route::get('/today/sell', 'Api\PosController@TodaySell');
+Route::get('/today/income', 'Api\PosController@TodayIncome');
+Route::get('/today/due', 'Api\PosController@TodayDue');
+Route::get('/today/expense', 'Api\PosController@TodayExpense');
+Route::get('/today/stockout', 'Api\PosController@StockOut');

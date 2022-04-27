@@ -47,7 +47,7 @@ class ExpenseController extends Controller
         $expense                = new Expense;
         $expense->details       = $request->details;
         $expense->amount        = $request->amount;
-        $expense->expense_date  = date('d/m/y');
+        $expense->expense_date  = date('d/m/Y');
         $expense->save();
     }
 
@@ -87,7 +87,7 @@ class ExpenseController extends Controller
         $data                    = array();
         $data['details']         = $request->details;
         $data['amount']          = $request->amount;
-        $data['expense_date']    = date('d/m/y');
+        $data['expense_date']    = date('d/m/Y');
 
         DB::table('expenses')->where('id', $id)->update($data);
     }

@@ -24,7 +24,7 @@ class SalaryController extends Controller
             $data                   = array();
             $data['employee_id']    = $id;
             $data['amount']         = $request->sallery;
-            $data['salary_date']    = date('d/m/y');
+            $data['salary_date']    = date('d/m/Y');
             $data['salary_month']   = $month;
             $data['salary_year']    = date('Y');
 
